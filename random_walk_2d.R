@@ -19,9 +19,21 @@ for(i in 1:n_exp) {
          xlim = c(-10,10), ylim=c(-10,10))
   else
     points(x, type="l", col=palette()[i%%8+1]) #every walk has a different color
-}
+
 
 #other way to put colors:
-#else
-  #lines(x, col=rgb(runif(255),runif(255),runif(255)))
-  #lines(x,col=palette()[i%%8+1])
+  #else
+    #lines(x, col=rgb(runif(255),runif(255),runif(255)))
+    #lines(x,col=palette()[i%%8+1])
+
+  #total_sum=the mean value from all the walks
+  total_sum = total_sum + apply(xy, 2, sum)
+  #sum of the square values of all the positions xy
+  total_sd2 = total_sd2 + apply(xy^2, 1, sum)
+  
+} #end of for(i)
+
+plot(matrix(total_sum/n_steps/n_exp, 1, 2), xlim=c(-1,1), ylim=c(-1,1), xlab="mean x", 
+     ylab="mean y", main="mean value")
+plot(total_sd2/n_exp, ylim=c(0,n_steps), xlab="time", 
+     ylab="r^2", main="mean r^2 vs time")
